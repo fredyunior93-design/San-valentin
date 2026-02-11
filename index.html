@@ -421,10 +421,12 @@
             const giftEmoji = document.getElementById('gift-emoji');
             const giftBadge = document.getElementById('gift-badge');
 
-            // 1. Música (Carga y reproducción forzada)
+            // --- REFUERZO DE AUDIO ---
+            audio.src = CONFIG.musicaURL;
             audio.load();
             audio.play().catch(() => {
-                setTimeout(() => audio.play(), 100);
+                // Segundo intento por si el primero falla
+                setTimeout(() => audio.play(), 200);
             });
 
             // 2. Animación de Transición (LO QUE FALTABA)
