@@ -222,6 +222,27 @@
             pointer-events: none;
             z-index: 9999;
         }
+
+        /* --- EFECTO TRANSICIÓN REGALO --- */
+        .gift-container-animate {
+            position: fixed !important;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(10);
+            z-index: 5000;
+            transition: all 2.0s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .gift-explode {
+            animation: explode 1.2s forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(10); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(25); opacity: 0; }
+        }
+      
     </style>
 </head>
 <body>
