@@ -379,7 +379,14 @@
             updateFlip('minutes', Math.floor((diff % msPorHr) / msPorMin));
             updateFlip('seconds', Math.floor((diff % msPorMin) / msPorSec));
         }
-        setInterval(render, 1000); render();
+        // Lógica de sincronización exacta (Línea 370 en tu captura)
+        function syncClock() {
+            render();
+            const now = new Date();
+            const timeUntilNextSecond = 1000 - now.getMilliseconds();
+            setTimeout(syncClock, timeUntilNextSecond);
+        }
+        syncClock();
 
         function huir() {
             const btn = document.getElementById('btnNo');
