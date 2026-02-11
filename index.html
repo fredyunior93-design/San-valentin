@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Mi Macita Hermosa 👸 ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+        :root {
+            --primary: #7c3aed; 
+            --secondary: #a78bfa;
+            --bg-gradient: linear-gradient(135deg, #f5f3ff 0%, #ddd6fe 100%);
+            --card-bg: linear-gradient(to bottom, #4c1d95 0%, #2e1065 100%);
+            --card-text: #ede9fe;
+            --hinge-color: linear-gradient(to bottom, #cfd9df 0%, #a1abbb 100%);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-gradient);
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        .font-romantic { font-family: 'Dancing Script', cursive; }
+
+        /* Partículas y Fotos */
+        .particle, .photo-particle {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp linear forwards;
+        }
+
+        .particle { 
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(124, 58, 237, 0.2)); 
+        }
+
+        .photo-particle {
+            background: white;
+            padding: 8px 8px 24px 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-radius: 4px;
+            z-index: 500; 
+            border: 1px solid #eee;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-30vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(167, 139, 250, 0.4);
+            box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.25);
+        }
+
+        /* --- ESTILO FLIP CLOCK --- */
+        .flip-card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            perspective: 400px;
+        }
+
+        .flip-unit {
+            position: relative;
+            width: 58px;
+            height: 60px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 60px;
+            text-align: center;
+            color: var(--card-text);
+            box-shadow: 0 10px 10px -5px rgba(0,0,0,0.5);
+        }
+
+        .top, .bottom, .leaf-front, .leaf-back {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+            backface-visibility: hidden;
+            background: var(--card-bg);
+        }
+
+        .top, .leaf-front {
+            top: 0;
+            border-radius: 6px 6px 0 0;
+            line-height: 60px;
+            border-bottom: 1px solid rgba(0,0,0,0.4);
+        }
+
+        .bottom, .leaf-back {
+            bottom: 0;
+            border-radius: 0 0 6px 6px;
+            line-height: 0;
+            border-top: 1px solid rgba(0,0,0,0.4);
+        }
+
+        .hinge {
+            position: absolute;
+            top: 50%;
+            width: 4px;
+            height: 12px;
+            background: var(--hinge-color);
+            transform: translateY(-50%);
+            z-index: 100;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+        }
+        .hinge-left { left: 8px; }
+        .hinge-right { right: 8px; }
+
+        .flip-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #7c3aed;
+            margin-top: 8px;
+            letter-spacing: 0.1em;
+        }
+
+        .leaf {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            z-index: 50;
+            transform-origin: bottom;
+            transition: transform 0.6s ease-in;
+            transform-style: preserve-3d;
+        }
+
+        .leaf.flipping { transform: rotateX(-180deg); }
+        .leaf-back { transform: rotateX(-180deg); }
+
+        /* --- ESTILO BOTONES COMBINADOS --- */
+        .btn-clock-style {
+            background: var(--card-bg);
+            color: var(--card-text);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            font-weight: 800;
+            transition: all 0.3s ease;
+        }
+
+        .btn-clock-style:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.4);
+        }
+
+        .pulse-btn {
+            animation: pulse-violet 2s infinite;
+        }
+
+        @keyframes pulse-violet {
+            0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(124, 58, 237, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+        }
+
+        #btnNo {
+            z-index: 50;
+            will-change: transform;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-container" class="fixed inset-0 pointer-events-none"></div>
+
+    <main class="relative z-10 w-full max-w-[95%] sm:max-w-md px-2">
+        <div class="glass-card rounded-[40px] p-8 text-center relative overflow-hidden">
+            
+            <div class="flex justify-center mb-4">
+                <div class="relative">
+                    <span class="text-6xl animate-bounce inline-block">🎁</span>
+                    <div class="absolute -top-2 -right-2 bg-violet-600 w-6 h-6 rounded-full flex items-center justify-center border-2 border-white">
+                        <span class="text-[10px] text-white font-bold">1</span>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="text-3xl font-romantic text-violet-700 mb-1 leading-tight tracking-wide">Para Mi Macita Hermosa 👸</h1>
+            <p class="text-violet-400 text-[10px] uppercase tracking-[0.2em] font-extrabold mb-6 italic text-center">Nuestra historia de amor</p>
+
+            <div id="timer" class="grid grid-cols-3 gap-y-6 gap-x-2 mb-8 justify-items-center">
+                <div class="flip-card-container" id="years-container">
+                    <div class="flip-unit">
+                        <div class="top">0</div><div class="bottom">0</div>
+                        <div class="leaf"><div class="leaf-front">0</div><div class="leaf-back">0</div></div>
+                        <div class="hinge hinge-left"></div><div class="hinge hinge-right"></div>
+                    </div>
+                    <span class="flip-label">Años</span>
+                </div>
+                <div class="flip-card-container" id="months-container">
+                    <div class="flip-unit">
+                        <div class="top">0</div><div class="bottom">0</div>
+                        <div class="leaf"><div class="leaf-front">0</div><div class="leaf-back">0</div></div>
+                        <div class="hinge hinge-left"></div><div class="hinge hinge-right"></div>
+                    </div>
+                    <span class="flip-label">Meses</span>
+                </div>
+                <div class="flip-card-container" id="days-container">
+                    <div class="flip-unit">
+                        <div class="top">0</div><div class="bottom">0</div>
+                        <div class="leaf"><div class="leaf-front">0</div><div class="leaf-back">0</div></div>
+                        <div class="hinge hinge-left"></div><div class="hinge hinge-right"></div>
+                    </div>
+                    <span class="flip-label">Días</span>
+                </div>
+                <div class="flip-card-container" id="hours-container">
+                    <div class="flip-unit">
+                        <div class="top">0</div><div class="bottom">0</div>
+                        <div class="leaf"><div class="leaf-front">0</div><div class="leaf-back">0</div></div>
+                        <div class="hinge hinge-left"></div><div class="hinge hinge-right"></div>
+                    </div>
+                    <span class="flip-label">Horas</span>
+                </div>
+                <div class="flip-card-container" id="minutes-container">
+                    <div class="flip-unit">
+                        <div class="top">0</div><div class="bottom">0</div>
+                        <div class="leaf"><div class="leaf-front">0</div><div class="leaf-back">0</div></div>
+                        <div class="hinge hinge-left"></div><div class="hinge hinge-right"></div>
+                    </div>
+                    <span class="flip-label">Min</span>
+                </div>
+                <div class="flip-card-container" id="seconds-container">
+                    <div class="flip-unit">
+                        <div class="top">0</div><div class="bottom">0</div>
+                        <div class="leaf"><div class="leaf-front">0</div><div class="leaf-back">0</div></div>
+                        <div class="hinge hinge-left"></div><div class="hinge hinge-right"></div>
+                    </div>
+                    <span class="flip-label">Seg</span>
+                </div>
+            </div>
+
+            <div class="space-y-3 mb-8 text-center">
+                <p class="text-gray-700 font-semibold text-lg leading-relaxed">
+                    Cada día a tu lado <br> es un regalo.
+                </p>
+                <p class="text-violet-600 font-bold text-xl">
+                    ¿Quieres ser mi <br> San Valentín?
+                </p>
+            </div>
+
+            <div id="button-zone" class="flex flex-col gap-5 items-center justify-center min-h-[160px] relative">
+                <button id="btnSi" onclick="celebrar()" class="btn-clock-style pulse-btn py-4 px-12 z-20 text-lg w-full max-w-[240px]">
+                    ¡SÍ, ACEPTO! 💖
+                </button>
+                
+                <button id="btnNo" 
+                    onmouseover="huir()" 
+                    onclick="huir()" 
+                    ontouchstart="huir(event)" 
+                    class="btn-clock-style py-4 px-12 z-20 text-lg w-full max-w-[240px]">
+                    No... 🥺
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Final Actualizado con el nuevo mensaje -->
+    <div id="modal" class="hidden fixed inset-0 bg-violet-900/95 backdrop-blur-lg z-[400] flex items-center justify-center p-6 text-center animate-in fade-in duration-700">
+        <div class="bg-white rounded-[40px] p-10 max-w-xs shadow-2xl relative">
+            <div class="text-8xl mb-6 animate-bounce">🥰</div>
+            <h2 class="text-4xl font-romantic text-violet-700 mb-4">¡Eres increíble!</h2>
+            <p id="modal-message" class="text-gray-600 mb-10 leading-relaxed"></p>
+            <button onclick="enviarWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white font-black py-4 px-10 rounded-full shadow-2xl w-full flex items-center justify-center gap-2 transform active:scale-90 transition">
+                <span>Enviar confirmación</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const CARICATURAS = {
+            obelisco: `<svg width="40" height="60" viewBox="0 0 40 100"><path d="M15 100 L25 100 L22 10 L20 0 L18 10 Z" fill="#E2E8F0" stroke="#94A3B8" stroke-width="2"/></svg>`,
+            mirinda: `<svg width="30" height="50" viewBox="0 0 40 80"><rect x="10" y="20" width="20" height="50" rx="5" fill="#FB923C"/><rect x="14" y="10" width="12" height="10" fill="#FDBA74"/><rect x="10" y="35" width="20" height="15" fill="#F97316"/><circle cx="20" cy="42" r="4" fill="white" opacity="0.6"/></svg>`,
+            hamburguesa: `<svg width="40" height="40" viewBox="0 0 50 50"><path d="M5 25 Q25 5 45 25 Z" fill="#FDE047"/><rect x="5" y="25" width="40" height="5" fill="#4ADE80"/><rect x="5" y="30" width="40" height="8" rx="2" fill="#92400E"/><path d="M5 38 Q25 45 45 38 Z" fill="#FDE047"/></svg>`,
+            asado: `<svg width="40" height="40" viewBox="0 0 50 50"><path d="M10 20 Q25 10 40 20 L40 35 Q25 45 10 35 Z" fill="#7F1D1D"/><path d="M15 22 L35 22 M15 28 L35 28 M15 34 L35 34" stroke="#B91C1C" stroke-width="2"/></svg>`,
+            arraial: `<svg width="40" height="40" viewBox="0 0 50 50"><circle cx="40" cy="10" r="8" fill="#FDE047"/><path d="M0 40 Q25 30 50 40 L50 50 L0 50 Z" fill="#38BDF8"/><path d="M10 40 L15 20" stroke="#92400E" stroke-width="3"/><path d="M15 20 Q5 15 10 5 Q20 15 15 20 Q25 15 30 5 Q20 20 15 20" fill="#22C55E"/></svg>`,
+            casa: `<svg width="40" height="40" viewBox="0 0 50 50"><path d="M5 25 L25 5 L45 25 Z" fill="#EF4444"/><rect x="10" y="25" width="30" height="20" fill="#FEF3C7"/><rect x="20" y="35" width="10" height="10" fill="#B45309"/></svg>`,
+            cordoba: `<svg width="40" height="40" viewBox="0 0 50 50"><path d="M0 45 L15 15 L30 45 Z" fill="#166534"/><path d="M20 45 L35 25 L50 45 Z" fill="#15803D"/><path d="M10 45 L25 10 L40 45 Z" fill="#14532D"/></svg>`,
+            luisMi: `<svg width="50" height="30" viewBox="0 0 100 60"><rect width="100" height="60" rx="5" fill="#FDE047"/><text x="50" y="38" font-family="Arial" font-size="10" font-weight="bold" fill="#78350F" text-anchor="middle">Luis Mi</text></svg>`,
+            fonsi: `<svg width="50" height="30" viewBox="0 0 100 60"><rect width="100" height="60" rx="5" fill="#F472B6"/><text x="50" y="38" font-family="Arial" font-size="10" font-weight="bold" fill="white" text-anchor="middle">Fonsi</text></svg>`,
+            dread: `<svg width="50" height="30" viewBox="0 0 100 60"><rect width="100" height="60" rx="5" fill="#10B981"/><text x="50" y="38" font-family="Arial" font-size="9" font-weight="bold" fill="white" text-anchor="middle">Dread Mar I</text></svg>`,
+            haash: `<svg width="50" height="30" viewBox="0 0 100 60"><rect width="100" height="60" rx="5" fill="#A78BFA"/><text x="50" y="38" font-family="Arial" font-size="10" font-weight="bold" fill="white" text-anchor="middle">Ha*Ash</text></svg>`,
+            kany: `<svg width="50" height="30" viewBox="0 0 100 60"><rect width="100" height="60" rx="5" fill="#F87171"/><text x="50" y="38" font-family="Arial" font-size="10" font-weight="bold" fill="white" text-anchor="middle">Kany G.</text></svg>`,
+            corazonV: `<svg width="30" height="30" viewBox="0 0 50 50"><path d="M25 45 L21 41 C8 30 0 22 0 13 A12 12 0 0 1 24 8 A12 12 0 0 1 50 13 C50 22 42 30 29 41 Z" fill="#8B5CF6"/></svg>`
+        };
+
+        const CONFIG = {
+            nombreNovia: "Mi Macita Hermosa 👸", 
+            fechaAniversario: [2019, 2, 16], 
+            tuWhatsApp: "5491159676723", // NÚMERO ACTUALIZADO
+            mensajeAceptacion: "¡SÍ! Acepto ser tu San Valentín! ❤️ Te amo",
+            iconos: Object.values(CARICATURAS),
+            fotos: [
+                "https://i.postimg.cc/m2GNmvDH/20190511-203652.jpg",
+                "https://i.postimg.cc/sDgWvs02/Screenshot-20260211-121155-Gallery.jpg",
+                "https://i.postimg.cc/m2g9tB6D/Screenshot-20260211-121212-Gallery.jpg",
+                "https://i.postimg.cc/50mH2RBx/20190310-013600.jpg",
+                "https://i.postimg.cc/fLMLpfG4/20210212-171324.jpg",
+                "https://i.postimg.cc/3R3RVFsH/20210905-201822.jpg",
+                "https://i.postimg.cc/V6z6pWxP/20211107-135933.jpg",
+                "https://i.postimg.cc/DZ7ZHP9k/20211229-142339.jpg",
+                "https://i.postimg.cc/Cxjw0fH1/LRM-EXPORT-525299696851087-20190709-210201020-01.jpg",
+                "https://i.postimg.cc/k5s963HC/20211003-141708.jpg"
+            ]
+        };
+
+        // ACTUALIZACIÓN DEL MENSAJE FINAL
+        document.getElementById('modal-message').innerText = "uuuuff menos mal dijiste que si 🥳. Te amo mucho, " + CONFIG.nombreNovia + ".";
+
+        const fechaInicio = new Date(CONFIG.fechaAniversario[0], CONFIG.fechaAniversario[1], CONFIG.fechaAniversario[2]);
+
+        let prevValues = { years: -1, months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
+
+        function updateFlipUnit(unit, newValue) {
+            const container = document.getElementById(unit + '-container');
+            const top = container.querySelector('.top');
+            const bottom = container.querySelector('.bottom');
+            const leafFront = container.querySelector('.leaf-front');
+            const leafBack = container.querySelector('.leaf-back');
+            const leaf = container.querySelector('.leaf');
+
+            if (newValue === prevValues[unit]) return;
+
+            const oldValue = prevValues[unit] === -1 ? newValue : prevValues[unit];
+            
+            top.innerText = newValue;
+            bottom.innerText = oldValue;
+            leafFront.innerText = oldValue;
+            leafBack.innerText = newValue;
+
+            if (prevValues[unit] !== -1) {
+                leaf.classList.remove('flipping');
+                void leaf.offsetWidth;
+                leaf.classList.add('flipping');
+
+                setTimeout(() => {
+                    bottom.innerText = newValue;
+                    leaf.classList.remove('flipping');
+                    leafFront.innerText = newValue;
+                }, 600);
+            } else {
+                bottom.innerText = newValue;
+                leafFront.innerText = newValue;
+            }
+
+            prevValues[unit] = newValue;
+        }
+
+        function actualizarContador() {
+            const ahora = new Date();
+            const diff = ahora - fechaInicio;
+            const msPorSegundo = 1000;
+            const msPorMinuto = msPorSegundo * 60;
+            const msPorHora = msPorMinuto * 60;
+            const msPorDia = msPorHora * 24;
+            const msPorAnio = msPorDia * 365.25;
+
+            updateFlipUnit('years', Math.floor(diff / msPorAnio));
+            updateFlipUnit('months', Math.floor((diff % msPorAnio) / (msPorDia * 30.44)));
+            updateFlipUnit('days', Math.floor((diff % (msPorDia * 30.44)) / msPorDia));
+            updateFlipUnit('hours', Math.floor((diff % msPorDia) / msPorHora));
+            updateFlipUnit('minutes', Math.floor((diff % msPorHora) / msPorMinuto));
+            updateFlipUnit('seconds', Math.floor((diff % msPorMinuto) / msPorSegundo));
+        }
+        
+        setInterval(actualizarContador, 1000);
+        actualizarContador();
+
+        let lastX = 0;
+        function huir(e) {
+            if (e) e.preventDefault();
+            const btn = document.getElementById('btnNo');
+            const range = 140; 
+            let newX = (Math.random() - 0.5) * range * 2;
+            let newY = (Math.random() - 0.5) * range;
+            if (Math.abs(newX - lastX) < 40) newX += 50;
+            lastX = newX;
+            btn.style.transform = `translate(${newX}px, ${newY}px)`;
+        }
+
+        function celebrar() {
+            document.getElementById('modal').classList.remove('hidden');
+            for(let i = 0; i < 50; i++) setTimeout(crearParticula, i * 70);
+            for(let j = 0; j < 30; j++) setTimeout(crearFotoFlotante, j * 350);
+        }
+
+        function enviarWhatsApp() {
+            window.location.href = `https://wa.me/${CONFIG.tuWhatsApp}?text=${encodeURIComponent(CONFIG.mensajeAceptacion)}`;
+        }
+
+        function crearParticula() {
+            const container = document.getElementById('particles-container');
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.innerHTML = CONFIG.iconos[Math.floor(Math.random() * CONFIG.iconos.length)];
+            const duration = Math.random() * 3 + 4;
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.transform = `scale(${Math.random() * 0.4 + 0.7})`;
+            particle.style.animationDuration = duration + 's';
+            container.appendChild(particle);
+            setTimeout(() => particle.remove(), duration * 1000);
+        }
+
+        function crearFotoFlotante() {
+            if (CONFIG.fotos.length === 0) return;
+            const photo = document.createElement('div');
+            const randomImg = CONFIG.fotos[Math.floor(Math.random() * CONFIG.fotos.length)];
+            photo.classList.add('photo-particle');
+            photo.innerHTML = `<img src="${randomImg}" style="width: 125px; height: 125px; object-fit: cover; display: block;">`;
+            const duration = Math.random() * 4 + 6;
+            photo.style.left = (Math.random() * 70 + 15) + 'vw';
+            photo.style.transform = `rotate(${(Math.random() - 0.5) * 45}deg)`;
+            photo.style.animationDuration = duration + 's';
+            document.body.appendChild(photo);
+            setTimeout(() => photo.remove(), duration * 1000);
+        }
+
+        setInterval(crearParticula, 1200);
+    </script>
+</body>
+</html>
