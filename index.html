@@ -395,11 +395,15 @@
             btn.style.transform = `translate(${(Math.random()-0.5)*range*2}px, ${(Math.random()-0.5)*range}px)`;
         }
 
-        function celebrar() {
-            // REPRODUCIR MÚSICA AL ACEPTAR
-            audio.play().catch(e => console.log("Error al reproducir audio:", e));
+         function celebrar() {
+            // 1. Mostrar modal inmediatamente
+            const modal = document.getElementById('modal');
+            if(modal) modal.classList.remove('hidden');
+
+            // 2. Intentar música
+            audio.play().catch(e => console.log("Esperando interacción"));
             
-            document.getElementById('modal').classList.remove('hidden');
+            // 3. Efectos
             for(let i=0; i<40; i++) setTimeout(crearParticula, i*80);
             for(let j=0; j<25; j++) setTimeout(crearFotoFlotante, j*350);
         }
