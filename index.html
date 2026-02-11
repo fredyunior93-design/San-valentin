@@ -257,9 +257,10 @@
         <div class="glass-card rounded-[40px] p-6 text-center relative overflow-hidden">
             
             <div class="flex justify-center shrink-0">
-                <div class="relative">
-                    <span class="text-4xl animate-bounce inline-block">🎁</span>
-                    <div class="absolute -top-1 -right-1 bg-violet-600 w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
+                <!-- ID AÑADIDO: gift-wrapper -->
+                <div id="gift-wrapper" class="relative transition-all duration-700">
+                    <span id="gift-emoji" class="text-4xl animate-bounce inline-block">🎁</span>
+                    <div id="gift-badge" class="absolute -top-1 -right-1 bg-violet-600 w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
                         <span class="text-[9px] text-white font-bold">1</span>
                     </div>
                 </div>
@@ -416,13 +417,33 @@
         }
 
         function celebrar() {
-            /* FIX MÓVIL 6: El play() debe ocurrir obligatoriamente tras el clic */
-            audio.play().catch(() => console.log("Audio esperando interacción activa"));
+            const giftWrapper = document.getElementById('gift-wrapper');
+            const giftEmoji = document.getElementById('gift-emoji');
+            const giftBadge = document.getElementById('gift-badge');
+
+            // 1. Música (Carga y reproducción forzada)
+            audio.load();
+            audio.play().catch(() => {
+                setTimeout(() => audio.play(), 100);
+            });
+
+            // 2. Animación de Transición (LO QUE FALTABA)
+            giftBadge.style.display = 'none'; 
+            giftWrapper.classList.add('gift-container-animate');
             
-            document.getElementById('modal').classList.remove('hidden');
-            
-            for(let i=0; i<40; i++) setTimeout(crearParticula, i*80);
-            for(let j=0; j<25; j++) setTimeout(crearFotoFlotante, j*350);
+            // Abre el regalo a los 1.8 segundos
+            setTimeout(() => {
+                giftEmoji.innerText = "✨"; // Cambia el regalo por brillo
+                giftWrapper.classList.add('gift-explode');
+            }, 1800);
+
+            // Muestra todo el contenido final a los 3 segundos
+            setTimeout(() => {
+                document.getElementById('modal').classList.remove('hidden');
+                for(let i=0; i<40; i++) setTimeout(crearParticula, i*80);
+                for(let j=0; j<25; j++) setTimeout(crearFotoFlotante, j*350);
+                giftWrapper.style.display = 'none';
+            }, 3000);
         }
 
         function enviarWhatsApp() {
