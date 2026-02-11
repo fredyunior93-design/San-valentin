@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Maria Jose ❤️</title>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background-color: #ffcad4;
+            font-family: 'Arial', sans-serif; overflow: hidden; text-align: center;
+        }
+        .container {
+            background: white; padding: 30px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            z-index: 10; width: 85%; max-width: 400px;
+        }
+        h1 { color: #ff4d6d; font-size: 1.8rem; }
+        .timer { font-size: 1.1rem; color: #555; margin: 20px 0; font-weight: bold; }
+        .btn-container { display: flex; justify-content: center; gap: 20px; margin-top: 20px; position: relative; }
+        .btn {
+            padding: 12px 25px; border-radius: 50px; border: none;
+            cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s;
+        }
+        #btnSi { background-color: #ff4d6d; color: white; }
+        #btnNo { background-color: #ccc; color: white; position: absolute; left: 160px; }
+        .heart { position: absolute; color: #ff4d6d; animation: float linear infinite; }
+        @keyframes float { 0% { transform: translateY(100vh); opacity: 1; } 100% { transform: translateY(-10vh); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Para Maria Jose ❤️</h1>
+        <p>Llevamos juntos:</p>
+        <div id="contador" class="timer">Cargando tiempo...</div>
+        <p>¿Quieres ser mi San Valentín este 2026?</p>
+        
+        <div class="btn-container" style="height: 50px;">
+            <button class="btn" id="btnSi" onclick="aceptar()">¡SÍ!</button>
+            <button class="btn" id="btnNo" onmouseover="moverBoton()" onclick="moverBoton()">No</button>
+        </div>
+    </div>
+
+    <script>
+        // --- CAMBIA TU FECHA AQUÍ (Año, Mes - 1, Día) ---
+        // Enero es 0, Febrero es 1, etc. 
+        const fechaInicio = new Date(2018, 0, 1); 
+
+        function actualizarContador() {
+            const ahora = new Date();
+            const diff = ahora - fechaInicio;
+
+            const anios = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+            const diasTotales = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const diasRestantes = Math.floor(diasTotales % 365.25);
+
+            document.getElementById('contador').innerHTML = 
+                `${anios} años y ${diasRestantes} días`;
+        }
+        setInterval(actualizarContador, 1000);
+
+        function moverBoton() {
+            const btnNo = document.getElementById('btnNo');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+        }
+
+        function aceptar() {
+            alert("¡Sabía que dirías que sí! Te amo ❤️");
+            location.href = "https://wa.me/tu_numero_aqui?text=Acepto!%20Te%20amo%20mi%20amor"; 
+        }
+
+        function crearCorazon() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(crearCorazon, 500);
+    </script>
+</body>
+</html>
